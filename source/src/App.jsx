@@ -256,6 +256,7 @@ function LangSwitch() {
 
 function Header({ profile, setProfile, view, setView, clientId, setClientId }) {
   const { lang, tx } = useLang();
+  const showProfile = view === 'hub' || view === 'parser';
   return (
     <header style={{ top: 'env(safe-area-inset-top, 0px)' }} className="sticky z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3 sm:px-8">
@@ -271,7 +272,9 @@ function Header({ profile, setProfile, view, setView, clientId, setClientId }) {
           <LangSwitch />
         </div>
 
-        <div className="flex items-center gap-3 max-md:w-full md:ml-auto">
+        <div className={cx("flex items-center gap-3 md:ml-auto", showProfile && "max-md:w-full")}>
+          {showProfile && (<>
+          <span className="hidden text-xs font-semibold text-slate-500 xl:inline">{tx('Score as', 'Noter selon')}</span>
           <div className="hidden rounded-lg bg-slate-100 p-1 ring-1 ring-slate-200 md:flex" role="radiogroup" aria-label={tx('Sector profile', 'Profil sectoriel')}>
             {PROFILES.map((p) => {
               const Icon = PROFILE_ICON[p.id];
@@ -301,6 +304,7 @@ function Header({ profile, setProfile, view, setView, clientId, setClientId }) {
               ))}
             </select>
           </label>
+          </>)}
           <div className="hidden md:block">
             <LangSwitch />
           </div>
